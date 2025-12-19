@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="25dp">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create Request"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingEnd="28dp"/>
+        </LinearLayout>
+
+        <!-- Post Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Post Title"
+            android:paddingBottom="10dp"/>
+
+
+        <EditText
+            android:id="@+id/postTitle"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Type title"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Select Group -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="Select Group"/>
+
+        <Spinner
+            android:id="@+id/groupSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Amount -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount of Request Blood"
+            android:paddingBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/amountField"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Type how much"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Date -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="Date" />
+
+        <EditText
+            android:id="@+id/dateField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Select Date"
+            android:focusable="false"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Hospital Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="Hospital Name"/>
+
+        <EditText
+            android:id="@+id/hospitalName"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Type hospital name"
+            android:padding="5dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Why need blood -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Why do you need blood?"/>
+
+        <EditText
+            android:id="@+id/whyField"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="top"
+            android:background="@drawable/edit_bg"
+            android:hint="Type why"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Contact Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Contact person Name"/>
+
+        <EditText
+            android:id="@+id/contactName"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Type name"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Mobile -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Mobile number"/>
+
+        <EditText
+            android:id="@+id/mobileNumber"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Type mobile number"
+            android:padding="10dp"
+            android:inputType="phone"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- Country -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="Country"/>
+
+        <Spinner
+            android:id="@+id/countrySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!-- City -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="City"/>
+
+        <Spinner
+            android:id="@+id/citySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/edit_bg"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Get Started"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:backgroundTint="#FF4C4C"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="40dp"/>
+    </LinearLayout>
+</ScrollView>
