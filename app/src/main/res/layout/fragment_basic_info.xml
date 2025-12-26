@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@id/lblDob" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvAge"  android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Your age - 0"
@@ -179,7 +179,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_input_field"
             android:gravity="top|start"
-            android:hint="Type about yourself"
+            android:hint="Type about yourself or Write specific address"
             android:padding="16dp"
             android:inputType="textMultiLine"
             android:textSize="14sp"
@@ -193,6 +193,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_button_rounded"
             android:text="Next"
+            android:enabled="false"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"

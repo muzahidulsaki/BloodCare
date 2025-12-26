@@ -2,6 +2,7 @@ package com.example.bloodcare
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -41,6 +42,11 @@ class Login : AppCompatActivity() {
         backBtn.setOnClickListener {
             finish()
         }
+    }
+
+    fun goToSignup(view: View) {
+        val intent = Intent(this, Signup::class.java)
+        startActivity(intent)
     }
 
     private fun loginUser(email: String, password: String) {

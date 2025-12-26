@@ -20,4 +20,5 @@
     <color name="theme_icon_tint">#FF5858</color>
     <color name="text_primary">#222222</color>
     <color name="theme_red_active">#FF4747</color>
+    <color name="dashed_border">#CCCCCC</color>
 </resources>

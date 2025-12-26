@@ -1,16 +1,13 @@
 package com.example.bloodcare
 
 import BasicInfoFragment
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 class Profile : AppCompatActivity() {
 
@@ -22,11 +19,17 @@ class Profile : AppCompatActivity() {
     private lateinit var btnNext: Button
     private lateinit var btnBack: ImageView
 
+    // ✅ Shared ViewModel
+    private lateinit var viewModel: ProfileViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        // ভিউ ইনিশিয়ালাইজেশন
+        // ✅ ViewModel init
+        viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
+
+        // View init
         etName = findViewById(R.id.etName)
         etMobile = findViewById(R.id.etMobile)
         ddGroup = findViewById(R.id.ddGroup)
@@ -48,18 +51,62 @@ class Profile : AppCompatActivity() {
         etName.addTextChangedListener(inputWatcher)
         etMobile.addTextChangedListener(inputWatcher)
 
-        // TextView এ টেক্সট চেঞ্জ লিসেনার সরাসরি কাজ করে না যদি ইউজার টাইপ না করে
-        // তাই এগুলো আপাতত checkInputs এর বাইরে রাখাই ভালো অথবা ডাটা সিলেক্ট করার পর checkInputs() কল করুন
+        // Blood Group Dropdown
+        ddGroup.setOnClickListener {
+            val popup = PopupMenu(this, ddGroup)
+            val bloodGroups = listOf("A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-")
+            bloodGroups.forEach { popup.menu.add(it) }
 
+            popup.setOnMenuItemClickListener {
+                ddGroup.text = it.title
+                checkInputs()
+                true
+            }
+            popup.show()
+        }
+
+        // Country
+        ddCountry.setOnClickListener {
+            val popup = PopupMenu(this, ddCountry)
+            popup.menu.add("Bangladesh")
+
+            popup.setOnMenuItemClickListener {
+                ddCountry.text = it.title
+                checkInputs()
+                true
+            }
+            popup.show()
+        }
+
+        // City
+        val districts = resources.getStringArray(R.array.bd_districts)
+        ddCity.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Select City")
+                .setItems(districts) { _, which ->
+                    ddCity.text = districts[which]
+                    checkInputs()
+                }
+                .show()
+        }
+
+        // ✅ NEXT BUTTON
         btnNext.setOnClickListener {
 
-            // ১. BasicInfoFragment এর একটি অবজেক্ট তৈরি করা
-            val basicInfoFragment =BasicInfoFragment()
+            // 🔥 STEP-2: Activity data → ViewModel
+            viewModel.name = etName.text.toString().trim()
+            viewModel.mobile = etMobile.text.toString().trim()
+            viewModel.bloodGroup = ddGroup.text.toString()
+            viewModel.country = ddCountry.text.toString()
+            viewModel.city = ddCity.text.toString()
 
-            // ২. Fragment ম্যানেজার দিয়ে বর্তমান স্ক্রিন রিপ্লেস করা
+            // Debug (optional)
+            Toast.makeText(this, "Data saved in ViewModel", Toast.LENGTH_SHORT).show()
+
+            // Fragment open
             supportFragmentManager.beginTransaction()
-                .replace(android.R.id.content, basicInfoFragment)
-                .addToBackStack(null) // যাতে ব্যাক বাটন চাপলে আবার এই পেজে ফিরে আসা যায়
+                .replace(android.R.id.content, BasicInfoFragment())
+                .addToBackStack(null)
                 .commit()
         }
     }
@@ -67,8 +114,15 @@ class Profile : AppCompatActivity() {
     private fun checkInputs() {
         val name = etName.text.toString().trim()
         val mobile = etMobile.text.toString().trim()
+        val group = ddGroup.text.toString().trim()
+        val country = ddCountry.text.toString().trim()
+        val city = ddCity.text.toString().trim()
 
-        // শুধু নাম এবং মোবাইল চেক করছি আপাতত
-        btnNext.isEnabled = name.isNotEmpty() && mobile.length >= 10
+        btnNext.isEnabled =
+            name.isNotEmpty() &&
+                    mobile.matches(Regex("01[3-9]\\d{8}")) &&
+                    group.isNotEmpty() &&
+                    country.isNotEmpty() &&
+                    city.isNotEmpty()
     }
 }

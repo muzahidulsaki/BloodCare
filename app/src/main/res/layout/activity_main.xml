@@ -320,59 +320,40 @@
 
         </GridLayout>
 
-        <!-- Blood Group Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Blood Group"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"/>
-
-        <GridLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:layout_marginTop="10dp"
-            android:alignmentMode="alignMargins"
-            android:rowOrderPreserved="false"
-            android:useDefaultMargins="true">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp">
 
-            <!-- Repeat Buttons -->
-            <Button
-                android:text="@string/a"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="A-"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="B+"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="B-"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="AB+"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="@string/ab"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="O+"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-            <Button
-                android:text="O-"
-                app:backgroundTint="@null"
-                style="@style/BloodGroupButton"/>
-        </GridLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Recent Blood Request"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000"/>
+        </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecentRequests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+        <TextView
+            android:id="@+id/tvViewAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View All Requests"
+            android:textColor="#FF4C4C"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="15dp"
+            android:clickable="true"
+            android:focusable="true"/>
 
 
     </LinearLayout>

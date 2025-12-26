@@ -147,13 +147,38 @@
         </LinearLayout>
 
         <!-- Signup redirect -->
-        <TextView
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don’t have an account? Signup"
-            android:gravity="center"
-            android:layout_marginTop="30dp"
-            android:textColor="#333" />
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don’t have an account?"
+                android:textColor="#333" />
+
+            <TextView
+                android:id="@+id/tvSignup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Signup"
+                android:textStyle="bold"
+                android:textColor="#FF4747"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:onClick="goToSignup"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
