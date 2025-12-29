@@ -1,6 +1,7 @@
 package com.example.bloodcare
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog // ✅ ইম্পোর্ট করা হয়েছে
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.example.bloodcare.model.BloodRequestModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
+import java.util.Locale // ✅ Locale ইম্পোর্ট
 
 class CreatePostActivity : AppCompatActivity() {
 
@@ -20,7 +22,7 @@ class CreatePostActivity : AppCompatActivity() {
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ১. স্পিনার বা ড্রপডাউন সেটআপ (ডাটা লোড করা)
+        // ১. স্পিনার সেটআপ
         setupSpinners()
 
         // ২. ব্যাক বাটন
@@ -33,41 +35,33 @@ class CreatePostActivity : AppCompatActivity() {
             showDatePicker()
         }
 
-        // ৪. সাবমিট বাটন (Firebase এ সেভ করার জন্য)
+        // ৪. টাইম পিকার (✅ নতুন যোগ করা হয়েছে)
+        binding.timeField.setOnClickListener {
+            showTimePicker()
+        }
+
+        // ৫. সাবমিট বাটন
         binding.submitButton.setOnClickListener {
             validateAndSavePost()
         }
     }
 
-    // স্পিনারগুলোতে ডাটা সেট করার ফাংশন
     private fun setupSpinners() {
-        // ব্লাড গ্রুপ
         val bloodGroups = arrayOf("Select Group", "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-")
         val groupAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, bloodGroups)
         binding.groupSpinner.adapter = groupAdapter
 
-        // দেশ (উদাহরণ)
         val countries = arrayOf("Select Country", "Bangladesh")
         val countryAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, countries)
         binding.countrySpinner.adapter = countryAdapter
 
-        // ৩. শহর (শহরগুলো এখন strings.xml থেকে আসবে) ✅ পরিবর্তন এখানে
-
-        // প্রথমে XML থেকে জেলাগুলো নিয়ে আসা হলো
         val districts = resources.getStringArray(R.array.bd_districts)
-
-        // একটি নতুন লিস্ট তৈরি করা হলো যেখানে প্রথমে "Select City" থাকবে
         val cityList = mutableListOf("Select City")
-
-        // এরপর সেই লিস্টে জেলাগুলো যোগ করা হলো
         cityList.addAll(districts)
-
-        // এখন এই নতুন cityList টি এডাপ্টারে দেওয়া হলো
         val cityAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityList)
         binding.citySpinner.adapter = cityAdapter
     }
 
-    // ডেট পিকার দেখানোর ফাংশন
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         val dp = DatePickerDialog(
@@ -82,42 +76,62 @@ class CreatePostActivity : AppCompatActivity() {
         dp.show()
     }
 
-    // ইনপুট ভ্যালিডেশন এবং সেভ প্রসেস শুরু
+    // ✅ টাইম পিকার ফাংশন (AM/PM ফরম্যাট সহ)
+    private fun showTimePicker() {
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = calendar.get(Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(
+            this,
+            { _, hourOfDay, minute ->
+                // সময় ফরম্যাট করা (যেমন: 02:30 PM)
+                val amPm = if (hourOfDay >= 12) "PM" else "AM"
+                val hour12 = if (hourOfDay > 12) hourOfDay - 12 else if (hourOfDay == 0) 12 else hourOfDay
+                val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", hour12, minute, amPm)
+
+                binding.timeField.setText(timeString)
+            },
+            currentHour,
+            currentMinute,
+            false // false মানে 24 ঘন্টা ফরম্যাট হবে না, আমরা 12 ঘন্টা ফরম্যাট কাস্টম বানাচ্ছি
+        )
+        timePickerDialog.show()
+    }
+
     private fun validateAndSavePost() {
-        // বাইন্ডিং ব্যবহার করে ডাটা নেওয়া
+        // ডাটা নেওয়া
         val title = binding.postTitle.text.toString().trim()
         val amount = binding.amountField.text.toString().trim()
         val date = binding.dateField.text.toString().trim()
+        val time = binding.timeField.text.toString().trim() // ✅ টাইম নেওয়া হলো
         val hospital = binding.hospitalName.text.toString().trim()
         val reason = binding.whyField.text.toString().trim()
         val contact = binding.contactName.text.toString().trim()
         val mobile = binding.mobileNumber.text.toString().trim()
 
-        // স্পিনার ডাটা
         val selectedGroup = binding.groupSpinner.selectedItem?.toString() ?: "Select Group"
         val selectedCountry = binding.countrySpinner.selectedItem?.toString() ?: "Select Country"
         val selectedCity = binding.citySpinner.selectedItem?.toString() ?: "Select City"
 
-        // চেক করা কোনো ঘর খালি আছে কিনা
-        if (title.isEmpty() || amount.isEmpty() || date.isEmpty() || hospital.isEmpty() ||
+        // ভ্যালিডেশন
+        if (title.isEmpty() || amount.isEmpty() || date.isEmpty() || time.isEmpty() || hospital.isEmpty() ||
             reason.isEmpty() || contact.isEmpty() || mobile.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields including Time", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // চেক করা স্পিনার সিলেক্ট করা হয়েছে কিনা
         if (selectedGroup == "Select Group" || selectedCountry == "Select Country" || selectedCity == "Select City") {
             Toast.makeText(this, "Please select Group, Country and City correctly", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // সব ঠিক থাকলে Firebase এ সেভ ফাংশন কল করা
-        saveToFirebase(title, amount, date, hospital, reason, contact, mobile, selectedGroup, selectedCountry, selectedCity)
+        // সেভ ফাংশন কল
+        saveToFirebase(title, amount, date, time, hospital, reason, contact, mobile, selectedGroup, selectedCountry, selectedCity)
     }
 
-    // ফায়ারবেসে ডাটা পাঠানোর ফাংশন
     private fun saveToFirebase(
-        title: String, amount: String, date: String, hospital: String,
+        title: String, amount: String, date: String, time: String, hospital: String,
         reason: String, contact: String, mobile: String,
         group: String, country: String, city: String
     ) {
@@ -127,12 +141,11 @@ class CreatePostActivity : AppCompatActivity() {
             return
         }
 
-        // লোডিং বোঝানোর জন্য বাটন ডিজেবল করা যেতে পারে (অপশনাল)
         binding.submitButton.isEnabled = false
         binding.submitButton.text = "Posting..."
 
         val databaseRef = FirebaseDatabase.getInstance().getReference("usersPost")
-        val postId = databaseRef.push().key // ইউনিক আইডি তৈরি
+        val postId = databaseRef.push().key
 
         if (postId != null) {
             val post = BloodRequestModel(
@@ -142,6 +155,7 @@ class CreatePostActivity : AppCompatActivity() {
                 bloodGroup = group,
                 amount = amount,
                 date = date,
+                time = time, // ✅ টাইম ডাটাবেসে পাঠানো হচ্ছে
                 hospitalName = hospital,
                 reason = reason,
                 contactName = contact,
@@ -153,11 +167,11 @@ class CreatePostActivity : AppCompatActivity() {
             databaseRef.child(postId).setValue(post)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Request Posted Successfully!", Toast.LENGTH_LONG).show()
-                    finish() // সফল হলে পেজ বন্ধ করে দেওয়া
+                    finish()
                 }
                 .addOnFailureListener { e ->
                     binding.submitButton.isEnabled = true
-                    binding.submitButton.text = "Get Started" // টেক্সট আগের মতো করে দেওয়া
+                    binding.submitButton.text = "Post"
                     Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }

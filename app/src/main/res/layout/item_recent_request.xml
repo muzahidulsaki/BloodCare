@@ -55,7 +55,7 @@
                 <ImageView
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/hospital2"
                     app:tint="#FF4C4C"/>
                 <TextView
                     android:id="@+id/tvHospitalName"
@@ -77,7 +77,7 @@
                 <ImageView
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/time"
                     app:tint="#FF4C4C"/>
 
                 <TextView

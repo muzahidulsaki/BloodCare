@@ -1,10 +1,12 @@
-package com.example.bloodcare.adapter // আপনার প্যাকেজ নাম
+package com.example.bloodcare.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bloodcare.PostDetailsActivity // ✅ এটি ধাপ ৪ এ তৈরি হবে
 import com.example.bloodcare.R
 import com.example.bloodcare.model.BloodRequestModel
 
@@ -31,6 +33,17 @@ class RecentReqAdapter(private val postList: List<BloodRequestModel>) :
         holder.tvPostTitle.text = currentItem.title
         holder.tvHospitalName.text = currentItem.hospitalName
         holder.tvDate.text = currentItem.date
+
+        // ✅ কার্ডে ক্লিক করলে নতুন পেজে যাওয়ার কোড
+        holder.itemView.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, PostDetailsActivity::class.java)
+
+            // Serializable অবজেক্ট হিসেবে পুরো ডাটা পাঠানো হচ্ছে
+            intent.putExtra("postData", currentItem)
+
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

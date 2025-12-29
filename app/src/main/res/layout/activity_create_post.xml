@@ -81,6 +81,8 @@
             android:padding="10dp"
             android:layout_marginBottom="15dp"/>
 
+
+
         <!-- Date -->
 
         <TextView
@@ -97,6 +99,25 @@
             android:hint="Select Date"
             android:focusable="false"
             android:drawableEnd="@drawable/ic_calendar"
+            android:padding="10dp"
+            android:layout_marginBottom="15dp"/>
+
+        <!--Time-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="Time" />
+
+        <EditText
+            android:id="@+id/timeField"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edit_bg"
+            android:hint="Select Time"
+            android:focusable="false"
+            android:drawableEnd="@drawable/time_black1"
             android:padding="10dp"
             android:layout_marginBottom="15dp"/>
 
