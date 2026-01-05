@@ -22,15 +22,52 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_button_rounded"
-        android:text="Confirm"
+        android:text="Confirm Donation"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <LinearLayout
+        android:id="@+id/layoutOwnerActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditPost"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/bg_button_rounded"
+            android:backgroundTint="#4CAF50"
+            android:text="Edit"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeletePost"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/bg_button_rounded"
+            android:backgroundTint="#F44336"
+            android:text="Delete"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btnConfirmDonation"
+        android:layout_above="@id/layoutOwnerActions"
         android:layout_below="@id/btnBack"
         android:fillViewport="true">
 
