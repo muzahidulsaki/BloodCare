@@ -14,18 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BloodCare">
+
         <activity
             android:name=".PostDetailsActivity"
             android:exported="false" />
-        <activity
-            android:name=".RecentReqAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".BloodRequestModel"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileViewModel"
-            android:exported="false" />
+
         <activity
             android:name=".Profile"
             android:exported="false" />
@@ -48,15 +41,16 @@
         <activity
             android:name=".DonorActivity"
             android:exported="false" />
+
         <activity
             android:name=".welcome"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true" />

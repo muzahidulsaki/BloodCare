@@ -43,14 +43,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Mobile"
+            android:text="Email"
             android:textColor="#000000"/>
         <EditText
-            android:id="@+id/etMobile"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Type Number"
-            android:background="@drawable/edittext_bg"
+            android:hint="Type Email" android:background="@drawable/edittext_bg"
             android:padding="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="14dp"

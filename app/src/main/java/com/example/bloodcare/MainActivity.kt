@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
 
         // ✅ ৩. View All বাটনের কাজ
         binding.tvViewAll.setOnClickListener {
-            Toast.makeText(this, "All posts page coming soon!", Toast.LENGTH_SHORT).show()
-            // ভবিষ্যতে এখানে AllPostsActivity তে যাওয়ার ইন্টেন্ট দেবেন
+            val intent = Intent(this, BloodRequestActivity::class.java)
+            startActivity(intent)
         }
         // 🔽 Activity As Expand / Collapse
         // 🔽 Activity As Expand / Collapse
