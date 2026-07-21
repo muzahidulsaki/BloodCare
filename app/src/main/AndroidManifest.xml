@@ -14,15 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BloodCare">
-
+        <activity
+            android:name=".SuccessBottomSheet"
+            android:exported="false" />
+        <activity
+            android:name=".DonorAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".UserModel"
+            android:exported="false" />
+        <activity
+            android:name=".ViewProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".PostDetailsActivity"
             android:exported="false" />
-
         <activity
             android:name=".Profile"
             android:exported="false" />
-
         <activity
             android:name=".Signup"
             android:exported="false" />
@@ -41,20 +50,18 @@
         <activity
             android:name=".DonorActivity"
             android:exported="false" />
-
         <activity
             android:name=".welcome"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

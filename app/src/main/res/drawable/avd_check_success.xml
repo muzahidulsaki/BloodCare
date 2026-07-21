@@ -1,0 +1,50 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="100dp"
+            android:height="100dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+
+            <path
+                android:name="path_circle"
+                android:pathData="M 12 2 C 17.523 2 22 6.477 22 12 C 22 17.523 17.523 22 12 22 C 6.477 22 2 17.523 2 12 C 2 6.477 6.477 2 12 2 Z"
+                android:strokeWidth="2"
+                android:strokeColor="#4CAF50"
+                android:strokeLineCap="round"
+                android:trimPathEnd="0"/> <path
+            android:name="path_check"
+            android:pathData="M 7 12 L 11 16 L 17 8"
+            android:strokeWidth="2"
+            android:strokeColor="#4CAF50"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:trimPathEnd="0"/> </vector>
+    </aapt:attr>
+
+    <target android:name="path_circle">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:duration="500"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+
+    <target android:name="path_check">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="trimPathEnd"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:duration="300"
+                android:startOffset="450"
+                android:interpolator="@android:interpolator/decelerate_cubic"/>
+        </aapt:attr>
+    </target>
+</animated-vector>

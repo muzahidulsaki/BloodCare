@@ -38,7 +38,6 @@ class Signup : AppCompatActivity() {
 
         // Login redirect
         txtLogin.setOnClickListener {
-            // ✅ 'login' এর বদলে 'Login' ব্যবহার করা হয়েছে
             startActivity(Intent(this, Login::class.java))
             finish()
         }
@@ -65,14 +64,13 @@ class Signup : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid ?: ""
 
-                    // ডাটা ম্যাপ তৈরি
                     val userMap = hashMapOf(
                         "name" to name,
                         "email" to email,
                         "uid" to userId
                     )
 
-                    // ✅ Firebase Database-এ ডাটা সেভ
+                    //  Firebase Database
                     FirebaseDatabase.getInstance().getReference("users")
                         .child(userId)
                         .setValue(userMap)

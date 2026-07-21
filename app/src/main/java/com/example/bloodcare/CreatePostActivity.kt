@@ -1,9 +1,10 @@
 package com.example.bloodcare
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog // ✅ ইম্পোর্ট করা হয়েছে
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bloodcare.databinding.ActivityCreatePostBinding
@@ -11,11 +12,15 @@ import com.example.bloodcare.model.BloodRequestModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
-import java.util.Locale // ✅ Locale ইম্পোর্ট
+import java.util.Locale
 
 class CreatePostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
+
+    // এডিট মোড ট্র্যাক করার ভেরিয়েবল
+    private var isEditMode = false
+    private var existingPostId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,24 +30,63 @@ class CreatePostActivity : AppCompatActivity() {
         // ১. স্পিনার সেটআপ
         setupSpinners()
 
-        // ২. ব্যাক বাটন
+        // ২. ইনটেন্ট চেক করা (Edit Mode কিনা)
+        checkForEditIntent()
+
+        // ৩. ব্যাক বাটন
         binding.backButton.setOnClickListener {
             finish()
         }
 
-        // ৩. ডেট পিকার
+        // ৪. ডেট পিকার
         binding.dateField.setOnClickListener {
             showDatePicker()
         }
 
-        // ৪. টাইম পিকার (✅ নতুন যোগ করা হয়েছে)
+        // ৫. টাইম পিকার
         binding.timeField.setOnClickListener {
             showTimePicker()
         }
 
-        // ৫. সাবমিট বাটন
+        // ৬. সাবমিট বাটন
         binding.submitButton.setOnClickListener {
             validateAndSavePost()
+        }
+    }
+
+    private fun checkForEditIntent() {
+        if (intent.hasExtra("postId")) {
+            isEditMode = true
+            existingPostId = intent.getStringExtra("postId")
+
+            binding.submitButton.text = "Update Post"
+            binding.titleText.text = "Edit Request"
+
+            binding.postTitle.setText(intent.getStringExtra("title"))
+            binding.amountField.setText(intent.getStringExtra("amount"))
+            binding.hospitalName.setText(intent.getStringExtra("hospitalName"))
+            binding.whyField.setText(intent.getStringExtra("reason"))
+            binding.contactName.setText(intent.getStringExtra("contactName"))
+            binding.mobileNumber.setText(intent.getStringExtra("mobile"))
+            binding.dateField.setText(intent.getStringExtra("date"))
+            binding.timeField.setText(intent.getStringExtra("time"))
+
+            val bloodGroup = intent.getStringExtra("bloodGroup")
+            val city = intent.getStringExtra("city")
+            val country = intent.getStringExtra("country")
+
+            setSpinnerSelection(binding.groupSpinner, bloodGroup)
+            setSpinnerSelection(binding.citySpinner, city)
+            setSpinnerSelection(binding.countrySpinner, country)
+        }
+    }
+
+    private fun setSpinnerSelection(spinner: Spinner, value: String?) {
+        if (value == null) return
+        val adapter = spinner.adapter as ArrayAdapter<String>
+        val position = adapter.getPosition(value)
+        if (position >= 0) {
+            spinner.setSelection(position)
         }
     }
 
@@ -76,7 +120,6 @@ class CreatePostActivity : AppCompatActivity() {
         dp.show()
     }
 
-    // ✅ টাইম পিকার ফাংশন (AM/PM ফরম্যাট সহ)
     private fun showTimePicker() {
         val calendar = Calendar.getInstance()
         val currentHour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -85,7 +128,6 @@ class CreatePostActivity : AppCompatActivity() {
         val timePickerDialog = TimePickerDialog(
             this,
             { _, hourOfDay, minute ->
-                // সময় ফরম্যাট করা (যেমন: 02:30 PM)
                 val amPm = if (hourOfDay >= 12) "PM" else "AM"
                 val hour12 = if (hourOfDay > 12) hourOfDay - 12 else if (hourOfDay == 0) 12 else hourOfDay
                 val timeString = String.format(Locale.getDefault(), "%02d:%02d %s", hour12, minute, amPm)
@@ -94,17 +136,16 @@ class CreatePostActivity : AppCompatActivity() {
             },
             currentHour,
             currentMinute,
-            false // false মানে 24 ঘন্টা ফরম্যাট হবে না, আমরা 12 ঘন্টা ফরম্যাট কাস্টম বানাচ্ছি
+            false
         )
         timePickerDialog.show()
     }
 
     private fun validateAndSavePost() {
-        // ডাটা নেওয়া
         val title = binding.postTitle.text.toString().trim()
         val amount = binding.amountField.text.toString().trim()
         val date = binding.dateField.text.toString().trim()
-        val time = binding.timeField.text.toString().trim() // ✅ টাইম নেওয়া হলো
+        val time = binding.timeField.text.toString().trim()
         val hospital = binding.hospitalName.text.toString().trim()
         val reason = binding.whyField.text.toString().trim()
         val contact = binding.contactName.text.toString().trim()
@@ -114,10 +155,9 @@ class CreatePostActivity : AppCompatActivity() {
         val selectedCountry = binding.countrySpinner.selectedItem?.toString() ?: "Select Country"
         val selectedCity = binding.citySpinner.selectedItem?.toString() ?: "Select City"
 
-        // ভ্যালিডেশন
         if (title.isEmpty() || amount.isEmpty() || date.isEmpty() || time.isEmpty() || hospital.isEmpty() ||
             reason.isEmpty() || contact.isEmpty() || mobile.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields including Time", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -126,10 +166,14 @@ class CreatePostActivity : AppCompatActivity() {
             return
         }
 
-        // সেভ ফাংশন কল
-        saveToFirebase(title, amount, date, time, hospital, reason, contact, mobile, selectedGroup, selectedCountry, selectedCity)
+        if (isEditMode && existingPostId != null) {
+            updatePostInFirebase(existingPostId!!, title, amount, date, time, hospital, reason, contact, mobile, selectedGroup, selectedCountry, selectedCity)
+        } else {
+            saveToFirebase(title, amount, date, time, hospital, reason, contact, mobile, selectedGroup, selectedCountry, selectedCity)
+        }
     }
 
+    // ✅ নতুন পোস্ট সেভ (আপডেটেড: SuccessBottomSheet যোগ করা হয়েছে)
     private fun saveToFirebase(
         title: String, amount: String, date: String, time: String, hospital: String,
         reason: String, contact: String, mobile: String,
@@ -149,25 +193,19 @@ class CreatePostActivity : AppCompatActivity() {
 
         if (postId != null) {
             val post = BloodRequestModel(
-                postId = postId,
-                userId = userId,
-                title = title,
-                bloodGroup = group,
-                amount = amount,
-                date = date,
-                time = time, // ✅ টাইম ডাটাবেসে পাঠানো হচ্ছে
-                hospitalName = hospital,
-                reason = reason,
-                contactName = contact,
-                mobile = mobile,
-                country = country,
-                city = city
+                postId = postId, userId = userId, title = title, bloodGroup = group,
+                amount = amount, date = date, time = time, hospitalName = hospital,
+                reason = reason, contactName = contact, mobile = mobile,
+                country = country, city = city
             )
 
             databaseRef.child(postId).setValue(post)
                 .addOnSuccessListener {
-                    Toast.makeText(this, "Request Posted Successfully!", Toast.LENGTH_LONG).show()
-                    finish()
+                    // ✅ Success Bottom Sheet দেখানো হচ্ছে
+                    val successSheet = SuccessBottomSheet("Create Post Successfully") {
+                        finish() // অ্যাক্টিভিটি ক্লোজ
+                    }
+                    successSheet.show(supportFragmentManager, "SuccessSheet")
                 }
                 .addOnFailureListener { e ->
                     binding.submitButton.isEnabled = true
@@ -175,5 +213,39 @@ class CreatePostActivity : AppCompatActivity() {
                     Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+    // ✅ পোস্ট আপডেট (আপডেটেড: SuccessBottomSheet যোগ করা হয়েছে)
+    private fun updatePostInFirebase(
+        postId: String, title: String, amount: String, date: String, time: String, hospital: String,
+        reason: String, contact: String, mobile: String,
+        group: String, country: String, city: String
+    ) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        binding.submitButton.isEnabled = false
+        binding.submitButton.text = "Updating..."
+
+        val updatedData = mapOf(
+            "title" to title, "bloodGroup" to group, "amount" to amount,
+            "date" to date, "time" to time, "hospitalName" to hospital,
+            "reason" to reason, "contactName" to contact, "mobile" to mobile,
+            "country" to country, "city" to city
+        )
+
+        FirebaseDatabase.getInstance().getReference("usersPost").child(postId)
+            .updateChildren(updatedData)
+            .addOnSuccessListener {
+                // ✅ Success Bottom Sheet দেখানো হচ্ছে
+                val successSheet = SuccessBottomSheet("Post Updated Successfully") {
+                    finish() // অ্যাক্টিভিটি ক্লোজ
+                }
+                successSheet.show(supportFragmentManager, "SuccessSheet")
+            }
+            .addOnFailureListener { e ->
+                binding.submitButton.isEnabled = true
+                binding.submitButton.text = "Update Post"
+                Toast.makeText(this, "Update Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }

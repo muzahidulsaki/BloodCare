@@ -140,9 +140,11 @@ class UploadImageFragment : Fragment() {
 
     // ৩. ডাটাবেসে তথ্য সেভ করার ফাংশন
     private fun saveDataToRealtimeDatabase(userId: String, imageUrl: String) {
+        val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: "No Email Found"
         val userData = mapOf(
             "name" to viewModel.name,
             "mobile" to viewModel.mobile,
+            "email" to userEmail, // ✅ এখানে সেই ইমেইলটি ডাটাবেসে পাঠানো হলো
             "bloodGroup" to viewModel.bloodGroup,
             "country" to viewModel.country,
             "city" to viewModel.city,
