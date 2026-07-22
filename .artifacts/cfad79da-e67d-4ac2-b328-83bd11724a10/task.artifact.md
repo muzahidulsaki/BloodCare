@@ -1,0 +1,6 @@
+- [x] Secrets Gradle Plugin ডিপেনডেন্সি যোগ করা (`libs.versions.toml`)
+- [x] প্রজেক্ট লেভেলে প্লাগইন রেজিস্টার করা (`build.gradle.kts`)
+- [x] অ্যাপ লেভেলে প্লাগইন অ্যাপ্লাই এবং `buildConfig` এনাবেল করা (`app/build.gradle.kts`)
+- [x] `local.properties` ফাইলে সিক্রেট যোগ করা
+- [x] `UploadImageFragment.kt` ফাইলে `BuildConfig` ব্যবহার করা
+- [x] ভেরিফিকেশন (Gradle Sync এবং Build)

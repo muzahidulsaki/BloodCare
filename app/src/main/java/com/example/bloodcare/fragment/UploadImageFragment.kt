@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bloodcare.ProfileViewModel
 import com.example.bloodcare.R
+import com.example.bloodcare.BuildConfig
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 // Cloudinary Imports
@@ -79,10 +80,9 @@ class UploadImageFragment : Fragment() {
     private fun initCloudinary() {
         try {
             val config = HashMap<String, String>()
-            // FIXME: ড্যাশবোর্ড থেকে আপনার তথ্যগুলো নিচে বসান
-            config["cloud_name"] = "dr00dyggw"
-            config["api_key"] = "142699121148985"
-            config["api_secret"] = "YFwJGHjJnQQzctLJX6LO0H48L0Q"
+            config["cloud_name"] = BuildConfig.CLOUDINARY_CLOUD_NAME
+            config["api_key"] = BuildConfig.CLOUDINARY_API_KEY
+            config["api_secret"] = BuildConfig.CLOUDINARY_API_SECRET
 
             MediaManager.init(requireContext(), config)
         } catch (e: Exception) {
@@ -101,8 +101,7 @@ class UploadImageFragment : Fragment() {
         Toast.makeText(requireContext(), "আপলোড হচ্ছে, দয়া করে অপেক্ষা করুন...", Toast.LENGTH_SHORT).show()
 
         MediaManager.get().upload(selectedImageUri)
-            // FIXME: নিচে আপনার Unsigned Upload Preset এর নাম দিন
-            .unsigned("my_app_preset")
+            .unsigned(BuildConfig.CLOUDINARY_UPLOAD_PRESET)
             .option("public_id", userId) // ছবির নাম হবে ইউজারের ID
             // ✅ নতুন অপ্টিমাইজেশন কোড শুরু
             .option("resource_type", "image") // নিশ্চিত করা এটি ছবি
