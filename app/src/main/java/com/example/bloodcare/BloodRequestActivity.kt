@@ -45,17 +45,17 @@ class BloodRequestActivity : AppCompatActivity() {
     }
 
     private fun loadAllRequests() {
-        // এখানে আমরা .limitToLast() দিচ্ছি না, কারণ সব পোস্ট দরকার
+        // We are not using .limitToLast() here because all posts are needed
         val ref = FirebaseDatabase.getInstance().getReference("usersPost")
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 requestList.clear()
 
-                // ডেট চেকিং লজিক (আজকের আগের ডেট বাদ দেওয়া)
+                // Date checking logic (exclude dates before today)
                 val sdf = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
                 val todayCalendar = Calendar.getInstance()
-                // সময় রিসেট
+                // Reset time
                 todayCalendar.set(Calendar.HOUR_OF_DAY, 0)
                 todayCalendar.set(Calendar.MINUTE, 0)
                 todayCalendar.set(Calendar.SECOND, 0)
@@ -70,7 +70,7 @@ class BloodRequestActivity : AppCompatActivity() {
                             try {
                                 val postDate = sdf.parse(post.date)
 
-                                // যদি ডেট আজকের সমান বা পরে হয়, তবেই লিস্টে যোগ হবে
+                                // Add to list only if the date is today or later
                                 if (postDate != null && (postDate.after(todayDate) || postDate.equals(todayDate))) {
                                     requestList.add(post)
                                 }
@@ -79,7 +79,7 @@ class BloodRequestActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    // নতুন পোস্ট সবার উপরে দেখানোর জন্য রিভার্স করা হলো
+                    // Reversed to show the newest posts first
                     requestList.reverse()
                     adapter.notifyDataSetChanged()
                 }

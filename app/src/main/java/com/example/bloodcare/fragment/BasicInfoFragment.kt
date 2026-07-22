@@ -22,7 +22,7 @@ class BasicInfoFragment : Fragment() {
     private lateinit var etAbout: TextView
     private lateinit var btnNext: AppCompatButton
 
-    // ✅ Shared ViewModel
+    // Shared ViewModel
     private lateinit var viewModel: ProfileViewModel
 
     private var calculatedAge = 0
@@ -34,7 +34,7 @@ class BasicInfoFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_basic_info, container, false)
 
-        // ✅ ViewModel init (Activity scope)
+        // ViewModel init (Activity scope)
         viewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
 
         // View init
@@ -106,10 +106,10 @@ class BasicInfoFragment : Fragment() {
             popup.show()
         }
 
-        // ✅ NEXT BUTTON
+        // NEXT BUTTON
         btnNext.setOnClickListener {
 
-            // 🔥 STEP-3: Save Fragment data → ViewModel
+            // STEP-3: Save Fragment data to ViewModel
             viewModel.dob = etDob.text.toString()
             viewModel.age = calculatedAge.toString()
             viewModel.gender = ddGender.text.toString()

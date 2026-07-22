@@ -139,7 +139,7 @@ class ViewProfileActivity : AppCompatActivity() {
                     val profileImage = snapshot.child("profileImage").value.toString()
                     val mobile = snapshot.child("mobile").value.toString()
 
-                    // ✅ City  Email
+                    // City Email
                     val city = snapshot.child("city").value?.toString() ?: "N/A"
                     val email = snapshot.child("email").value?.toString() ?: "N/A"
 

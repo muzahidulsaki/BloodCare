@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.bloodcare.R
-import com.example.bloodcare.ViewProfileActivity // ✅ ভিউ প্রোফাইল অ্যাক্টিভিটি ইম্পোর্ট
+import com.example.bloodcare.ViewProfileActivity // Import ViewProfileActivity
 import com.example.bloodcare.model.UserModel
 
 class DonorAdapter(private val context: Context, private val userList: ArrayList<UserModel>) :
@@ -36,7 +36,7 @@ class DonorAdapter(private val context: Context, private val userList: ArrayList
         holder.tvPhone.text = user.mobile
         holder.tvBloodGroup.text = user.bloodGroup
 
-        // ব্যাজ ক্যালকুলেশন
+        // Badge calculation
         val badgeName = when {
             user.totalDonations >= 50 -> "Red Guardian"
             user.totalDonations >= 20 -> "Blood Hero"
@@ -47,7 +47,7 @@ class DonorAdapter(private val context: Context, private val userList: ArrayList
         }
         holder.tvBadge.text = badgeName
 
-        // ইমেজ লোড
+        // Load image
         if (user.profileImage != null && user.profileImage != "null" && user.profileImage.isNotEmpty()) {
             Glide.with(context)
                 .load(user.profileImage)
@@ -55,10 +55,10 @@ class DonorAdapter(private val context: Context, private val userList: ArrayList
                 .into(holder.ivImage)
         }
 
-        // ✅ কার্ডে ক্লিক করলে ViewProfileActivity তে নিয়ে যাবে
+        // Navigate to ViewProfileActivity on card click
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ViewProfileActivity::class.java)
-            // ইউজারের আইডি পাঠানো হচ্ছে যাতে প্রোফাইল লোড করা যায়
+            // Sending user ID to load profile
             intent.putExtra("targetUserId", user.userId)
             context.startActivity(intent)
         }

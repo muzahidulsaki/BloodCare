@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bloodcare.databinding.ActivityWelcomeBinding
-import com.google.firebase.auth.FirebaseAuth // ✅ লাইব্রেরি ইম্পোর্ট করা হলো
+import com.google.firebase.auth.FirebaseAuth // Library imported
 
 class welcome : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding

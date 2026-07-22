@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase // ✅ সঠিক ইম্পোর্ট
+import com.google.firebase.database.FirebaseDatabase // Correct import
 
 class Signup : AppCompatActivity() {
 
@@ -70,7 +70,7 @@ class Signup : AppCompatActivity() {
                         "uid" to userId
                     )
 
-                    //  Firebase Database
+                    // Firebase Database
                     FirebaseDatabase.getInstance().getReference("users")
                         .child(userId)
                         .setValue(userMap)

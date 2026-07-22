@@ -50,7 +50,7 @@ class UploadImageFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_upload_image, container, false)
 
-        // Cloudinary সেটআপ (ফাংশনটি নিচে কল করা হয়েছে)
+        // Cloudinary setup (function called below)
         initCloudinary()
 
         viewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
@@ -76,7 +76,7 @@ class UploadImageFragment : Fragment() {
         return view
     }
 
-    // ১. Cloudinary ইনিশিলাইজ করার ফাংশন
+    // 1. Cloudinary initialization function
     private fun initCloudinary() {
         try {
             val config = HashMap<String, String>()
@@ -86,11 +86,11 @@ class UploadImageFragment : Fragment() {
 
             MediaManager.init(requireContext(), config)
         } catch (e: Exception) {
-            // যদি আগে থেকেই ইনিশিলাইজ করা থাকে, তাহলে এরর ইগনোর করুন
+            // Ignore error if already initialized
         }
     }
 
-    // ২. ছবি আপলোড করার ফাংশন
+    // 2. Image upload function
     private fun uploadImageToCloudinary() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         if (userId == null) {
@@ -103,26 +103,26 @@ class UploadImageFragment : Fragment() {
         MediaManager.get().upload(selectedImageUri)
             .unsigned(BuildConfig.CLOUDINARY_UPLOAD_PRESET)
             .option("public_id", userId) // ছবির নাম হবে ইউজারের ID
-            // ✅ নতুন অপ্টিমাইজেশন কোড শুরু
-            .option("resource_type", "image") // নিশ্চিত করা এটি ছবি
-            .option("quality", "auto")        // কোয়ালিটি অটোমেটিক অ্যাডজাস্ট হবে (Size কমবে)
-            .option("width", 800)             // ছবির চওড়া ৮০০ পিক্সেলের বেশি হবে না
-            .option("crop", "limit")          // ছবি ক্রপ না করে শুধু সাইজ ছোট করবে
-            // ✅ নতুন অপ্টিমাইজেশন কোড শেষ
+            // New optimization code starts
+            .option("resource_type", "image") // Ensure it's an image
+            .option("quality", "auto")        // Quality will adjust automatically (reduces size)
+            .option("width", 800)             // Image width will not exceed 800 pixels
+            .option("crop", "limit")          // Reduce size without cropping
+            // New optimization code ends
             .callback(object : UploadCallback {
                 override fun onStart(requestId: String) {
-                    // আপলোড শুরু হলে কিছু করতে চাইলে এখানে লিখুন
+                    // Code to execute when upload starts
                 }
 
                 override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
-                    // প্রোগ্রেস বার দেখাতে চাইলে এখানে কোড করতে পারেন
+                    // Code for progress bar if needed
                 }
 
                 override fun onSuccess(requestId: String, resultData: Map<*, *>) {
-                    // সফল হলে URL পাওয়া যাবে
+                    // URL will be available if successful
                     val imageUrl = resultData["secure_url"].toString()
 
-                    // URL পাওয়ার পর ডাটাবেসে সেভ করা হবে
+                    // Save to database after getting the URL
                     saveDataToRealtimeDatabase(userId, imageUrl)
                 }
 
@@ -137,13 +137,13 @@ class UploadImageFragment : Fragment() {
             .dispatch()
     }
 
-    // ৩. ডাটাবেসে তথ্য সেভ করার ফাংশন
+    // 3. Save data to database function
     private fun saveDataToRealtimeDatabase(userId: String, imageUrl: String) {
         val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: "No Email Found"
         val userData = mapOf(
             "name" to viewModel.name,
             "mobile" to viewModel.mobile,
-            "email" to userEmail, // ✅ এখানে সেই ইমেইলটি ডাটাবেসে পাঠানো হলো
+            "email" to userEmail, // Sending that email to the database here
             "bloodGroup" to viewModel.bloodGroup,
             "country" to viewModel.country,
             "city" to viewModel.city,

@@ -1,39 +1,35 @@
-# API Key এবং সিক্রেট হাইড করার পরিকল্পনা
+# বাংলা কমেন্ট ইংরেজিতে রূপান্তর করার পরিকল্পনা
 
-এই পরিকল্পনায় আমরা **Secrets Gradle Plugin for Android** ব্যবহার করে আপনার API Key এবং সিক্রেটগুলো নিরাপদভাবে `local.properties` ফাইলে সরিয়ে নেব, যাতে গিঠহাবে কোড পুশ করলেও এগুলো ফাঁস না হয়।
+এই পরিকল্পনায় আমরা প্রজেক্টের বিভিন্ন ফাইলে থাকা বাংলা কমেন্টগুলোকে ইংরেজিতে অনুবাদ করবো। এটি কোডবেসকে আরও প্রফেশনাল এবং সবার জন্য বোধগম্য করতে সাহায্য করবে।
 
 ## Proposed Changes
 
-### Configuration & Dependency
+নিম্নোক্ত ফাইলগুলোতে থাকা বাংলা কমেন্টগুলো ইংরেজিতে রূপান্তর করা হবে:
 
-#### [MODIFY] [libs.versions.toml](file:///E:/AIUB/Language/Kotlin/Project/gradle/libs.versions.toml)
-Secrets Gradle Plugin-এর ডিপেনডেন্সি যোগ করা হবে।
+#### [MODIFY] [BloodRequestActivity.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/BloodRequestActivity.kt)
+- লাইন ৪৮: `// এখানে আমরা .limitToLast() দিচ্ছি না, কারণ সব পোস্ট দরকার` -> `// We are not using .limitToLast() here because all posts are needed`
+- লাইন ৫৫: `// ডেট চেকিং লজিক (আজকের আগের ডেট বাদ দেওয়া)` -> `// Date checking logic (exclude dates before today)`
 
-#### [MODIFY] [build.gradle.kts (Project)](file:///E:/AIUB/Language/Kotlin/Project/build.gradle.kts)
-প্রজেক্ট লেভেলে প্লাগইনটি রেজিস্টার করা হবে।
+#### [MODIFY] [DonorAdapter.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/DonorAdapter.kt)
+- ইম্পোর্ট লাইনে থাকা বাংলা কমেন্ট সরানো হবে।
 
-#### [MODIFY] [build.gradle.kts (App)](file:///E:/AIUB/Language/Kotlin/Project/app/build.gradle.kts)
-অ্যাপ মডিউলে প্লাগইনটি অ্যাপ্লাই করা হবে এবং `buildConfig` এনাবেল করা হবে।
+#### [MODIFY] [Login.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/Login.kt)
+- ভিউবাইন্ডিং এবং লগইন লজিক সংক্রান্ত কমেন্টগুলো অনুবাদ করা হবে।
 
-### Secret Management
+#### [MODIFY] [Signup.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/Signup.kt)
+- ইম্পোর্ট লাইনে থাকা বাংলা কমেন্ট সরানো হবে।
 
-#### [MODIFY] [local.properties](file:///E:/AIUB/Language/Kotlin/Project/local.properties)
-এখানে আপনার Cloudinary-এর তথ্যগুলো যোগ করা হবে:
-- `CLOUDINARY_CLOUD_NAME`
-- `CLOUDINARY_API_KEY`
-- `CLOUDINARY_API_SECRET`
-- `CLOUDINARY_UPLOAD_PRESET`
-
-### Implementation
+#### [MODIFY] [SuccessBottomSheet.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/SuccessBottomSheet.kt)
+- ইম্পোর্ট লাইনে থাকা বাংলা কমেন্ট সরানো হবে।
 
 #### [MODIFY] [UploadImageFragment.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/fragment/UploadImageFragment.kt)
-হার্ডকোড করা মানগুলোর বদলে `BuildConfig` থেকে মানগুলো ব্যবহার করা হবে।
+- Cloudinary সেটআপ, আপলোড এবং ডাটাবেস সেভ সংক্রান্ত বাংলা কমেন্টগুলো অনুবাদ করা হবে।
+
+#### [MODIFY] [welcome.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/welcome.kt)
+- ইম্পোর্ট লাইনে থাকা বাংলা কমেন্ট সরানো হবে।
 
 ## Verification Plan
 
-### Automated Tests
-- প্রজেক্টটি বিল্ড করা হবে (`gradlew assembleDebug`) যাতে `BuildConfig` জেনারেট হয়।
-
 ### Manual Verification
-- `UploadImageFragment.kt` ফাইলে `BuildConfig` থেকে আসা মানগুলো ঠিকমতো কাজ করছে কিনা তা পরীক্ষা করা।
-- নিশ্চিত করা যে গিঠহাবে পুশ দেওয়ার সময় `local.properties` ফাইলটি ইনডেক্স হচ্ছে না।
+- প্রতিটি ফাইল চেক করে নিশ্চিত করা হবে যে সব বাংলা কমেন্ট ইংরেজিতে রূপান্তরিত হয়েছে এবং কোডের কোনো লজিক পরিবর্তন হয়নি।
+- প্রজেক্টটি বিল্ড করে দেখা হবে কোনো সিনট্যাক্স এরর আছে কিনা।

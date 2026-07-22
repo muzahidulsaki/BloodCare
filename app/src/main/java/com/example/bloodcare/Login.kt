@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bloodcare.databinding.ActivityLoginBinding // ViewBinding ইম্পোর্ট
+import com.example.bloodcare.databinding.ActivityLoginBinding // ViewBinding import
 import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
@@ -17,19 +17,19 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ১. ViewBinding সেটআপ
+        // 1. ViewBinding setup
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
 
-        // ২. লগইন বাটন ক্লিক লজিক
+        // 2. Login button click logic
         binding.btnLogin.setOnClickListener {
-            // ✅ XML এ আপনার ID এখন 'etEmail', তাই binding.etEmail ব্যবহার করা হচ্ছে
+            // etEmail ID is used from binding as per XML
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
-            // ভ্যালিডেশন
+            // Validation
             if (email.isEmpty()) {
                 binding.etEmail.error = "Email is required"
                 binding.etEmail.requestFocus()
@@ -42,17 +42,17 @@ class Login : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // লগইন প্রসেস শুরু
+            // Start login process
             Toast.makeText(this@Login, "Logging in...", Toast.LENGTH_SHORT).show()
             loginUser(email, password)
         }
 
-        // ৩. ব্যাক বাটন
+        // 3. Back button
         binding.backBtn.setOnClickListener {
             finish()
         }
 
-        // ৪. সাইনআপ লিংকে ক্লিক
+        // 4. Click on signup link
         binding.tvSignup.setOnClickListener {
             goToSignup()
         }
@@ -72,7 +72,7 @@ class Login : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // সফল হলে
+                    // If successful
                     Log.d("LOGIN_DEBUG", "Login Successful")
                     Toast.makeText(this@Login, "Login Successful", Toast.LENGTH_SHORT).show()
 
@@ -81,14 +81,14 @@ class Login : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
-                    // ব্যর্থ হলে
+                    // If failed
                     val exception = task.exception
                     Log.e("LOGIN_DEBUG", "Login Failed", exception)
                     Toast.makeText(this@Login, "Failed: ${exception?.message}", Toast.LENGTH_LONG).show()
                 }
             }
             .addOnFailureListener { e ->
-                // নেটওয়ার্ক এরর হলে
+                // If network error occurs
                 Log.e("LOGIN_DEBUG", "Network/System Error", e)
                 Toast.makeText(this@Login, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }

@@ -1,28 +1,22 @@
-# সিক্রেট ম্যানেজমেন্ট বাস্তবায়ন সম্পন্ন
+# বাংলা কমেন্ট ইংরেজিতে রূপান্তর সম্পন্ন
 
-আমি সফলভাবে আপনার প্রজেক্টে **Secrets Gradle Plugin** যুক্ত করেছি এবং Cloudinary-এর সিক্রেটগুলো `local.properties` ফাইলে সরিয়ে নিয়েছি। এখন থেকে গিঠহাবে পুশ দিলে আপনার সিক্রেটগুলো ফাঁস হবে না।
+আমি সফলভাবে আপনার প্রজেক্টের সব বাংলা কমেন্ট খুঁজে বের করেছি এবং সেগুলো ইংরেজিতে অনুবাদ করেছি। এটি আপনার কোডবেসকে আরও প্রফেশনাল এবং আন্তর্জাতিক মানের করতে সাহায্য করবে।
 
-## পরিবর্তনসমূহ
+## প্রধান পরিবর্তনসমূহ
 
-### [Secrets Gradle Plugin Setup]
-- **[libs.versions.toml](file:///E:/AIUB/Language/Kotlin/Project/gradle/libs.versions.toml)**: প্লাগইন ডিপেনডেন্সি যোগ করা হয়েছে।
-- **[build.gradle.kts (Project)](file:///E:/AIUB/Language/Kotlin/Project/build.gradle.kts)**: প্রজেক্ট লেভেলে প্লাগইন রেজিস্টার করা হয়েছে।
-- **[build.gradle.kts (App)](file:///E:/AIUB/Language/Kotlin/Project/app/build.gradle.kts)**: প্লাগইন অ্যাপ্লাই করা হয়েছে এবং `buildConfig` এনাবেল করা হয়েছে।
+নিম্নোক্ত ফাইলগুলোতে থাকা বাংলা কমেন্টগুলো অনুবাদ করা হয়েছে:
 
-### [Secret Storage]
-- **[local.properties](file:///E:/AIUB/Language/Kotlin/Project/local.properties)**: এখানে নিম্নোক্ত কি-গুলো যোগ করা হয়েছে:
-  - `CLOUDINARY_CLOUD_NAME`
-  - `CLOUDINARY_API_KEY`
-  - `CLOUDINARY_API_SECRET`
-  - `CLOUDINARY_UPLOAD_PRESET`
-
-### [Code Implementation]
-- **[UploadImageFragment.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/fragment/UploadImageFragment.kt)**: হার্ডকোড করা মানগুলো সরিয়ে `BuildConfig` ব্যবহার করা হয়েছে।
+- **[BloodRequestActivity.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/BloodRequestActivity.kt)**: ডেট ফিল্টারিং এবং রিসাইক্লারভিউ সেটআপ সংক্রান্ত কমেন্ট।
+- **[CreatePostActivity.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/CreatePostActivity.kt)**: এডিট মোড, স্পিনার সেটআপ এবং ডেট/টাইম পিকার সংক্রান্ত কমেন্ট।
+- **[MainActivity.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/MainActivity.kt)**: ইউজার ইনফো লোড, রিসেন্ট রিকোয়েস্ট সেকশন এবং এনিমেশন সংক্রান্ত কমেন্ট।
+- **[Login.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/Login.kt)** & **[Signup.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/Signup.kt)**: ভিউবাইন্ডিং, লগইন/সাইনআপ লজিক এবং ভ্যালিডেশন সংক্রান্ত কমেন্ট।
+- **[UploadImageFragment.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/fragment/UploadImageFragment.kt)**: Cloudinary সেটআপ এবং ইমেজ আপলোড সংক্রান্ত কমেন্ট।
+- **[ViewProfileActivity.kt](file:///E:/AIUB/Language/Kotlin/Project/app/src/main/java/com/example/bloodcare/ViewProfileActivity.kt)**: প্রোফাইল ডেটা লোড এবং ট্যাব ম্যানেজমেন্ট সংক্রান্ত কমেন্ট।
+- অন্যান্য এডাপ্টার এবং ফ্র্যাগমেন্টের ইম্পোর্ট লাইনে থাকা বাংলা কমেন্টগুলোও পরিষ্কার করা হয়েছে।
 
 ## ভেরিফিকেশন ফলাফল
 
 - `gradlew app:assembleDebug` সফলভাবে সম্পন্ন হয়েছে।
-- `BuildConfig` ক্লাসটি সঠিকভাবে জেনারেট হয়েছে এবং কোডে অ্যাক্সেসযোগ্য।
+- কোডের কোনো লজিক পরিবর্তন করা হয়নি, শুধুমাত্র কমেন্টগুলো অনুবাদ করা হয়েছে।
 
-> [!IMPORTANT]
-> আপনি যদি অন্য কোন ডিভাইসে বা CI/CD (যেমন GitHub Actions) ব্যবহার করেন, তবে সেখানেও এই `local.properties`-এর মানগুলো ম্যানুয়ালি সেট করতে হবে অথবা Environment Variables ব্যবহার করতে হবে।
+এখন আপনার কোডবেস পুরোপুরি ইংরেজিতে কমেন্ট করা। আরও কোনো পরিবর্তন বা সাহায্য লাগলে জানাবেন!

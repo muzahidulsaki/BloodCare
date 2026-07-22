@@ -1,6 +1,7 @@
-- [x] Secrets Gradle Plugin ডিপেনডেন্সি যোগ করা (`libs.versions.toml`)
-- [x] প্রজেক্ট লেভেলে প্লাগইন রেজিস্টার করা (`build.gradle.kts`)
-- [x] অ্যাপ লেভেলে প্লাগইন অ্যাপ্লাই এবং `buildConfig` এনাবেল করা (`app/build.gradle.kts`)
-- [x] `local.properties` ফাইলে সিক্রেট যোগ করা
-- [x] `UploadImageFragment.kt` ফাইলে `BuildConfig` ব্যবহার করা
-- [x] ভেরিফিকেশন (Gradle Sync এবং Build)
+- [x] `BloodRequestActivity.kt` এর বাংলা কমেন্ট অনুবাদ করা
+- [x] `DonorAdapter.kt` এবং `RecentReqAdapter.kt` এর বাংলা কমেন্ট অনুবাদ করা
+- [x] `Login.kt` এবং `Signup.kt` এর বাংলা কমেন্ট অনুবাদ করা
+- [x] `SuccessBottomSheet.kt` এবং `welcome.kt` এর বাংলা কমেন্ট অনুবাদ করা
+- [x] `UploadImageFragment.kt` এবং `BasicInfoFragment.kt` এর বাংলা কমেন্ট অনুবাদ করা
+- [x] `ViewProfileActivity.kt` এবং অন্যান্য ফাইলের বাংলা কমেন্ট অনুবাদ করা
+- [x] ভেরিফিকেশন (Build check)

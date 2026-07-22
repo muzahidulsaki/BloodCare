@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bloodcare.PostDetailsActivity // ✅ এটি ধাপ ৪ এ তৈরি হবে
+import com.example.bloodcare.PostDetailsActivity // This will be created in step 4
 import com.example.bloodcare.R
 import com.example.bloodcare.model.BloodRequestModel
 
@@ -34,12 +34,12 @@ class RecentReqAdapter(private val postList: List<BloodRequestModel>) :
         holder.tvHospitalName.text = currentItem.hospitalName
         holder.tvDate.text = currentItem.date
 
-        // ✅ কার্ডে ক্লিক করলে নতুন পেজে যাওয়ার কোড
+        // Code to navigate to a new page on card click
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, PostDetailsActivity::class.java)
 
-            // Serializable অবজেক্ট হিসেবে পুরো ডাটা পাঠানো হচ্ছে
+            // Sending the whole data as a Serializable object
             intent.putExtra("postData", currentItem)
 
             context.startActivity(intent)

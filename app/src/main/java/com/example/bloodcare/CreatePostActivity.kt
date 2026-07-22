@@ -18,7 +18,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreatePostBinding
 
-    // এডিট মোড ট্র্যাক করার ভেরিয়েবল
+    // Variable to track Edit Mode
     private var isEditMode = false
     private var existingPostId: String? = null
 
@@ -27,28 +27,28 @@ class CreatePostActivity : AppCompatActivity() {
         binding = ActivityCreatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ১. স্পিনার সেটআপ
+        // 1. Spinner Setup
         setupSpinners()
 
-        // ২. ইনটেন্ট চেক করা (Edit Mode কিনা)
+        // 2. Check Intent (if Edit Mode)
         checkForEditIntent()
 
-        // ৩. ব্যাক বাটন
+        // 3. Back Button
         binding.backButton.setOnClickListener {
             finish()
         }
 
-        // ৪. ডেট পিকার
+        // 4. Date Picker
         binding.dateField.setOnClickListener {
             showDatePicker()
         }
 
-        // ৫. টাইম পিকার
+        // 5. Time Picker
         binding.timeField.setOnClickListener {
             showTimePicker()
         }
 
-        // ৬. সাবমিট বাটন
+        // 6. Submit Button
         binding.submitButton.setOnClickListener {
             validateAndSavePost()
         }
@@ -173,7 +173,7 @@ class CreatePostActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ নতুন পোস্ট সেভ (আপডেটেড: SuccessBottomSheet যোগ করা হয়েছে)
+    // Save new post (Updated: SuccessBottomSheet added)
     private fun saveToFirebase(
         title: String, amount: String, date: String, time: String, hospital: String,
         reason: String, contact: String, mobile: String,
@@ -201,9 +201,9 @@ class CreatePostActivity : AppCompatActivity() {
 
             databaseRef.child(postId).setValue(post)
                 .addOnSuccessListener {
-                    // ✅ Success Bottom Sheet দেখানো হচ্ছে
+                    // Showing Success Bottom Sheet
                     val successSheet = SuccessBottomSheet("Create Post Successfully") {
-                        finish() // অ্যাক্টিভিটি ক্লোজ
+                        finish() // Close activity
                     }
                     successSheet.show(supportFragmentManager, "SuccessSheet")
                 }
@@ -215,7 +215,7 @@ class CreatePostActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ পোস্ট আপডেট (আপডেটেড: SuccessBottomSheet যোগ করা হয়েছে)
+    // Update post (Updated: SuccessBottomSheet added)
     private fun updatePostInFirebase(
         postId: String, title: String, amount: String, date: String, time: String, hospital: String,
         reason: String, contact: String, mobile: String,
@@ -236,9 +236,9 @@ class CreatePostActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference("usersPost").child(postId)
             .updateChildren(updatedData)
             .addOnSuccessListener {
-                // ✅ Success Bottom Sheet দেখানো হচ্ছে
+                // Showing Success Bottom Sheet
                 val successSheet = SuccessBottomSheet("Post Updated Successfully") {
-                    finish() // অ্যাক্টিভিটি ক্লোজ
+                    finish() // Close activity
                 }
                 successSheet.show(supportFragmentManager, "SuccessSheet")
             }

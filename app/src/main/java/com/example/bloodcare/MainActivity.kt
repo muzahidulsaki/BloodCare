@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager // ✅ নতুন ইম্পোর্ট
+import androidx.recyclerview.widget.LinearLayoutManager // New import
 import com.bumptech.glide.Glide
-import com.example.bloodcare.adapter.RecentReqAdapter // ✅ নতুন ইম্পোর্ট (Adapter)
+import com.example.bloodcare.adapter.RecentReqAdapter // New import (Adapter)
 import com.example.bloodcare.databinding.ActivityMainBinding
 import com.example.bloodcare.fragments.ProfileMenuFragment
-import com.example.bloodcare.model.BloodRequestModel // ✅ নতুন ইম্পোর্ট (Model)
+import com.example.bloodcare.model.BloodRequestModel // New import (Model)
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,20 +25,20 @@ class MainActivity : AppCompatActivity() {
     private var isActivityExpanded = false
 
 
-    // ✅ রিসেন্ট পোস্টের জন্য লিস্ট এবং এডাপ্টার ভেরিয়েবল
+    // List and Adapter variables for recent posts
     private lateinit var postList: ArrayList<BloodRequestModel>
     private lateinit var recentReqAdapter: RecentReqAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // বাইন্ডিং অবজেক্ট তৈরি এবং লেআউট সেট করা
+        // Create binding object and set layout
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ✅ ১. অ্যাপ চালু হলেই ইউজারের তথ্য লোড হবে
+        // 1. User info will load when the app starts
         loadUserInfo()
 
-        // ✅ ২. Recent Requests সেকশন সেটআপ (নতুন কোড)
+        // 2. Recent Requests section setup (new code)
         setupRecentRequests()
 
         binding.profileImage.setOnClickListener {
@@ -48,45 +48,44 @@ class MainActivity : AppCompatActivity() {
             openMenu()
         }
 
-        // 🩸 Blood Donor কার্ডের জন্য OnClickListener
+        // OnClickListener for Blood Donor card
         binding.cardBloodDonor.setOnClickListener {
             val intent = Intent(this, DonorActivity::class.java)
             startActivity(intent)
         }
 
-        // 💉 Blood Recipient কার্ডের জন্য OnClickListener
+        // OnClickListener for Blood Recipient card
         binding.cardRecipient.setOnClickListener {
             val intent = Intent(this, BloodRequestActivity::class.java)
             startActivity(intent)
         }
 
-        // 📝 Create Post কার্ডের জন্য OnClickListener
+        // OnClickListener for Create Post card
         binding.cardCreatePost.setOnClickListener {
             val intent = Intent(this, CreatePostActivity::class.java)
             startActivity(intent)
         }
 
-        // ❤️ Blood Given কার্ডের জন্য OnClickListener
+        // OnClickListener for Blood Given card
         binding.cardGiven.setOnClickListener {
             val intent = Intent(this, BloodGivenActivity::class.java)
             startActivity(intent)
         }
 
-        // ডিফল্ট স্ট্যাটাস
+        // Default status
         binding.donateStatus.text = "Donate Blood: On"
 
-        // সার্চ বাটনের জন্য
+        // For search button
         binding.searchBlood.setOnClickListener {
             Toast.makeText(this, "Search feature coming soon!", Toast.LENGTH_SHORT).show()
         }
 
-        // ✅ ৩. View All বাটনের কাজ
+        // 3. View All button functionality
         binding.tvViewAll.setOnClickListener {
             val intent = Intent(this, BloodRequestActivity::class.java)
             startActivity(intent)
         }
-        // 🔽 Activity As Expand / Collapse
-        // 🔽 Activity As Expand / Collapse
+        // Activity As Expand / Collapse
         binding.activityHeader.setOnClickListener {
 
             if (!isActivityExpanded) {
@@ -107,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 isActivityExpanded = true
 
             } else {
-                // HIDE (🔥 delay added)
+                // HIDE (delay added)
                 val slideUp = android.view.animation.AnimationUtils.loadAnimation(
                     this,
                     R.anim.slide_up
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
                 binding.activityGrid.startAnimation(slideUp)
 
-                // ⏱ animation শেষ হলে GONE হবে
+                // GONE after animation ends
                 binding.activityGrid.postDelayed({
                     binding.activityGrid.visibility = View.GONE
                 }, 300)
@@ -132,41 +131,41 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    // ✅ রিসেন্ট রিকোয়েস্ট লোড করার ফাংশন (নতুন)
+    // Function to load recent requests (new)
     private fun setupRecentRequests() {
-        // RecyclerView কনফিগারেশন
+        // RecyclerView configuration
         binding.rvRecentRequests.layoutManager = LinearLayoutManager(this)
         binding.rvRecentRequests.setHasFixedSize(true)
 
         postList = arrayListOf()
-        // শুরুতে খালি লিস্ট দিয়ে এডাপ্টার সেট করা হলো
+        // Adapter set with an empty list initially
         recentReqAdapter = RecentReqAdapter(postList)
         binding.rvRecentRequests.adapter = recentReqAdapter
 
-        // Firebase থেকে ডাটা আনা
+        // Fetch data from Firebase
         loadRecentPostsFromFirebase()
     }
 
     private fun loadRecentPostsFromFirebase() {
         val ref = FirebaseDatabase.getInstance().getReference("usersPost")
 
-        // আমরা limitToLast(3) এর বদলে একটু বেশি ডাটা (যেমন ১০০) আনছি,
-        // কারণ ফিল্টার করার পর যেন লিস্ট খালি না হয়ে যায়।
+        // Fetching more data (e.g., 100) instead of limitToLast(3)
+        // to avoid an empty list after filtering.
         ref.limitToLast(100).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                postList.clear() // ডুপ্লিকেট এড়াতে লিস্ট ক্লিয়ার করা
+                postList.clear() // Clear list to avoid duplicates
 
-                // ১. ডেট ফরম্যাট এবং আজকের তারিখ সেটআপ
-                val sdf = java.text.SimpleDateFormat("d/M/yyyy", java.util.Locale.getDefault()) // আপনার ডেট ফরম্যাট অনুযায়ী (যেমন 25/12/2025)
+                // 1. Date format and today's date setup
+                val sdf = java.text.SimpleDateFormat("d/M/yyyy", java.util.Locale.getDefault()) // according to your date format (e.g., 25/12/2025)
 
                 val todayCalendar = java.util.Calendar.getInstance()
-                // সময় (Time) রিসেট করা হচ্ছে যাতে শুধু তারিখ তুলনা করা যায়
+                // Reset time to compare only dates
                 todayCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0)
                 todayCalendar.set(java.util.Calendar.MINUTE, 0)
                 todayCalendar.set(java.util.Calendar.SECOND, 0)
                 todayCalendar.set(java.util.Calendar.MILLISECOND, 0)
 
-                val todayDate = todayCalendar.time // আজকের তারিখ
+                val todayDate = todayCalendar.time // Today's date
 
                 if (snapshot.exists()) {
                     for (postSnap in snapshot.children) {
@@ -174,31 +173,31 @@ class MainActivity : AppCompatActivity() {
 
                         if (post != null && post.date != null) {
                             try {
-                                // ২. পোস্টের তারিখ স্ট্রিং থেকে Date অবজেক্টে কনভার্ট করা
+                                // 2. Convert post date string to Date object
                                 val postDate = sdf.parse(post.date)
 
-                                // ৩. তুলনা: যদি পোস্টের তারিখ "আজ" বা "ভবিষ্যৎ" হয়
+                                // 3. Comparison: if the post date is "today" or "future"
                                 if (postDate != null && (postDate.after(todayDate) || postDate.equals(todayDate))) {
                                     postList.add(post)
                                 }
                             } catch (e: Exception) {
-                                e.printStackTrace() // ডেট ফরম্যাট ভুল থাকলে এরর হ্যান্ডলিং
+                                e.printStackTrace() // Error handling if date format is incorrect
                             }
                         }
                     }
 
-                    // ৪. Firebase ডাটা পুরনো -> নতুন অর্ডারে দেয়, তাই রিভার্স করা হচ্ছে (যাতে লেটেস্ট উপরে থাকে)
+                    // 4. Firebase data is old -> new, so reversing it (to keep latest on top)
                     postList.reverse()
 
-                    // ৫. আপনি যদি শুধু ৩টা কার্ড দেখাতে চান, তাহলে নিচের কোডটুকু রাখুন,
-                    // আর যদি ফিল্টার করা সব দেখাতে চান তবে নিচের ৩ লাইন বাদ দিন।
+                    // 5. Keep the following code if you want to show only 3 cards,
+                    // otherwise remove the following 3 lines to show all filtered posts.
                     if (postList.size > 3) {
                         val limitedList = ArrayList(postList.subList(0, 3))
                         postList.clear()
                         postList.addAll(limitedList)
                     }
 
-                    // এডাপ্টারকে জানানো যে ডাটা চেঞ্জ হয়েছে
+                    // Notify adapter that data has changed
                     recentReqAdapter.notifyDataSetChanged()
                 }
             }
@@ -208,7 +207,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-    // ✅ Firebase থেকে ইউজারের নাম এবং ছবি আনার ফাংশন
+    // Function to fetch user name and photo from Firebase
     private fun loadUserInfo() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 

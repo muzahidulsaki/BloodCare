@@ -1,6 +1,6 @@
 package com.example.bloodcare
 
-import android.graphics.drawable.Animatable // ✅ এই ইম্পোর্টটি জরুরি
+import android.graphics.drawable.Animatable // This import is necessary
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -33,7 +33,7 @@ class SuccessBottomSheet(
 
         val drawable = ivIcon.drawable
         if (drawable is Animatable) {
-            drawable.start() // এনিমেশন শুরু
+            drawable.start() // Start animation
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
