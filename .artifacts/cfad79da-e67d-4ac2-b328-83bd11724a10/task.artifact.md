@@ -1,7 +1,0 @@
-- [x] `BloodRequestActivity.kt` এর বাংলা কমেন্ট অনুবাদ করা
-- [x] `DonorAdapter.kt` এবং `RecentReqAdapter.kt` এর বাংলা কমেন্ট অনুবাদ করা
-- [x] `Login.kt` এবং `Signup.kt` এর বাংলা কমেন্ট অনুবাদ করা
-- [x] `SuccessBottomSheet.kt` এবং `welcome.kt` এর বাংলা কমেন্ট অনুবাদ করা
-- [x] `UploadImageFragment.kt` এবং `BasicInfoFragment.kt` এর বাংলা কমেন্ট অনুবাদ করা
-- [x] `ViewProfileActivity.kt` এবং অন্যান্য ফাইলের বাংলা কমেন্ট অনুবাদ করা
-- [x] ভেরিফিকেশন (Build check)
